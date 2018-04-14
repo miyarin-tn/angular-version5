@@ -23,8 +23,11 @@ export class MovieDetailComponent implements OnInit {
 
   getMovieFromRoute(): void {
     const id = + this.route.snapshot.paramMap.get('id');
-    console.log(`this.route.snapshot.paramMap = ${JSON.stringify(this.route.snapshot.paramMap)}`);
-    this.movieService.getMovieFromId(id).subscribe(movie => this.movie = movie);
+    this.movieService.getMovieFromId(id).subscribe(movie => this.movie = movie[0]);
+  }
+
+  save(): void {
+    this.movieService.updateMovie(this.movie).subscribe(() => this.goBack());
   }
 
   goBack(): void {

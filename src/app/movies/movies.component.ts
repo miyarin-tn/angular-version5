@@ -25,6 +25,28 @@ export class MoviesComponent implements OnInit {
     this.getMoviesFromServices();
   }
 
+  add(username: string, firstname: string): void {
+    firstname = firstname.trim();
+    const newMovie = {
+      firstname: firstname,
+      lastname: '',
+      username: username,
+      password: '',
+      action: 'register'
+    };
+    const params = Object.keys(newMovie).map(function(k) {
+      return k + '=' + newMovie[k];
+    }).join('&');
+    this.movieService.addMovie(params)
+      .subscribe(() => this.getMoviesFromServices());
+  }
+
+  delete(movieId: number): void {
+    this.movieService.deleteMovie(movieId).subscribe(_ => {
+      this.movies = this.movies.filter(eachMovie => eachMovie.id !== movieId);
+    });
+  }
+
   // onSelect(movie: Movie): void {
   //   this.selectedMovie = movie;
   //   console.log(`selectedMovie = ${JSON.stringify(this.selectedMovie)}`);
